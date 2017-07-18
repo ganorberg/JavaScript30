@@ -7,41 +7,40 @@
 </head>
 <body>
 
-
   <div class="keys">
-    <div data-key="65" class="key">
+    <div data-key="65" id="A" class="key">
       <kbd>A</kbd>
       <span class="sound">clap</span>
     </div>
-    <div data-key="83" class="key">
+    <div data-key="83" id="S" class="key">
       <kbd>S</kbd>
       <span class="sound">hihat</span>
     </div>
-    <div data-key="68" class="key">
+    <div data-key="68" id="D" class="key">
       <kbd>D</kbd>
       <span class="sound">kick</span>
     </div>
-    <div data-key="70" class="key">
+    <div data-key="70" id="F" class="key">
       <kbd>F</kbd>
       <span class="sound">openhat</span>
     </div>
-    <div data-key="71" class="key">
+    <div data-key="71" id="G" class="key">
       <kbd>G</kbd>
       <span class="sound">boom</span>
     </div>
-    <div data-key="72" class="key">
+    <div data-key="72" id="H" class="key">
       <kbd>H</kbd>
       <span class="sound">ride</span>
     </div>
-    <div data-key="74" class="key">
+    <div data-key="74" id="J" class="key">
       <kbd>J</kbd>
       <span class="sound">snare</span>
     </div>
-    <div data-key="75" class="key">
+    <div data-key="75" id="K" class="key">
       <kbd>K</kbd>
       <span class="sound">tom</span>
     </div>
-    <div data-key="76" class="key">
+    <div data-key="76" id="L" class="key">
       <kbd>L</kbd>
       <span class="sound">tink</span>
     </div>
@@ -58,9 +57,32 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+// When user hits a drum, play the corresponding audio clip
+const playSound = (e) => {
+  const drum = document.body.querySelector(`audio[data-key="${e.keyCode}"]`);
+  const key = document.body.querySelector(`.key[data-key="${e.keyCode}"]`);
+
+  // If user hits non-drum keys, don't do anything
+  if (drum === null) return; 
+
+  // If drum hit while previous audio clip was still playing, restart clip
+  drum.currentTime = 0;
+  drum.play();
+  key.classList.add('playing');
+}
+
+const removeTransition = (e) => {
+  // wait for slowest transition
+  if (e.propertyName !== 'transform') return; 
+  e.target.classList.remove('playing');
+}
+
+document.addEventListener('keydown', playSound);
+
+// NodeList is iterable in newer browsers only
+document.querySelectorAll('.key').forEach(key => key.addEventListener('transitionend', removeTransition));
 
 </script>
-
 
 </body>
 </html>
