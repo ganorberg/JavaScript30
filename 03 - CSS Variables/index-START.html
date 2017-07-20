@@ -21,10 +21,21 @@
   <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
 
   <style>
-
-    /*
-      misc styles, nothing to do with CSS variables
-    */
+    :root {
+      --spacing: 50px;
+      --blur: 10px;
+      --base: #ffc600;
+    }
+    
+    .hl {
+      color: var(--base);
+    }
+      
+    img {
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+    }
 
     body {
       text-align: center;
@@ -40,11 +51,20 @@
     }
 
     input {
-      width:100px;
+      width: 100px;
     }
   </style>
 
   <script>
+    // Use ES5 function syntax to bind keyword this to observer
+    function update() {
+      const suffix = this.dataset.sizing || '';
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+    }
+
+    const inputs = document.querySelectorAll('.controls > input');
+    inputs.forEach(input => input.addEventListener('change', update));
+    inputs.forEach(input => input.addEventListener('mousemove', update));
   </script>
 
 </body>
