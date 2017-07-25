@@ -31,28 +31,54 @@
 
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
+    const inventorsBornIn1500s = inventors.filter(inventor => {
+      return inventor.year >= 1500 && inventor.year < 1600;
+    });
 
     // Array.prototype.map()
     // 2. Give us an array of the inventors' first and last names
+    const names = inventors.map(inventor => inventor.first + ' ' + inventor.last);
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
+    const ageSorted = inventors.slice().sort((a, b) => a.year - b.year);
 
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live?
+    const yearsLived = inventors.reduce((sum, inventor) => {
+      return sum += (inventor.passed - inventor.year);;
+    }, 0);
 
     // 5. Sort the inventors by years lived
+    const longevitySorted = inventors.slice().sort((a, b) => (a.passed - a.year) - (b.passed - b.year));
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
-
+    // const category = document.querySelector('.mw-category');
+    // const links = Array.from(category.querySelectorAll('a'));
+    // const de = links
+    //               .map(link => link.textContent)
+    //               .filter(boulevard => boulevard.includes('de'));
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+    const peopleSubarrays = people
+                              .map(person => person.split(', '))
+                              .sort((a, b) => a[0] < b[0] ? -1 : 1);
+
+    const inPlace = people.sort((a, b) => {
+      [aLast, aFirst] = a.split(', ');
+      [bLast, bFirst] = b.split(', ');
+      return aLast < bLast ? -1 : 1;
+    });
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+    const counts = data.reduce((counts, item) => {
+      counts.hasOwnProperty(item) ? counts[item]++ : counts[item] = 1;
+      return counts;
+    }, {});
 
   </script>
 </body>
