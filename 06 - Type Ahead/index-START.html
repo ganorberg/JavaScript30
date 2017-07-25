@@ -14,9 +14,54 @@
       <li>or a state</li>
     </ul>
   </form>
-<script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
-</script>
-  </body>
+  <script>
+  const cities = [];
+
+  const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  fetch(endpoint)
+    .then(blob => blob.json())
+    .then(data => cities.push(...data));
+
+  // Used in displayMatches
+  function findMatches(wordToMatch, cities) {
+    return cities.filter(place => {
+      const regex = new RegExp(wordToMatch, 'gi');
+      return place.city.match(regex) || place.state.match(regex);
+    })
+  }
+
+  // Used in displayMatches
+  function numberWithCommas(n) {
+      var parts = n.toString().split(".");
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      return parts.join(".");
+  }
+
+  function displayMatches(e) {
+    const suggestions = document.querySelector('.suggestions');
+    const matches = findMatches(this.value, cities);
+
+    const html = matches.map(match => {
+      const highlight = `<span class="hl">${this.value}</span>`;
+      const wordToMatch = new RegExp(this.value, 'gi');
+      const city = match.city.replace(wordToMatch, highlight);
+      const state = match.state.replace(wordToMatch, highlight);
+      const population = numberWithCommas(match.population);
+
+      // Faster than creating and manipulating DOM nodes using native API
+      return `<li>
+                <span class="suggestions">${city}, ${state}</span>
+                <span class="population">${population}</span>
+              </li>`
+    }).join('');
+
+    suggestions.innerHTML = html;
+  }
+
+  const searchInput = document.querySelector('.search');
+  searchInput.addEventListener('keyup', displayMatches);
+  </script>
+
+</body>
 </html>

@@ -64,10 +64,21 @@
 
     span.population {
       font-size: 15px;
+      color: gray;
+    }
+
+
+    .details {
+      text-align: center;
+      font-size: 15px;
     }
 
     .hl {
       background:#ffc600;
+    }
+
+    .love {
+      text-align: center;
     }
 
     a {
