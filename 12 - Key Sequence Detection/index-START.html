@@ -7,6 +7,21 @@
 </head>
 <body>
 <script>
+  const pressed = [];
+  const code = 'konami';
+
+  function codeListen(keyEvent) {
+    // store keypress
+    pressed.push(keyEvent.key);
+
+    // look at enough characters at end of pressed to verify code
+    const sequence = pressed.slice(pressed.length - code.length);
+
+    // trigger prize for correct sequence
+    if (sequence.join('') === code) { console.log('call trigger function'); }
+  }
+
+  document.addEventListener('keyup', codeListen);
 </script>
 </body>
 </html>
