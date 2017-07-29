@@ -51,6 +51,11 @@
       border-left: 1px solid #D1E2FF;
     }
 
+    .details {
+      text-align: center;
+      font-size: 15px;
+    }
+
 
   </style>
    <!--
@@ -61,44 +66,74 @@
   -->
   <div class="inbox">
     <div class="item">
-      <input type="checkbox">
+      <input id="1" type="checkbox">
       <p>This is an inbox layout.</p>
     </div>
     <div class="item">
-      <input type="checkbox">
+      <input id="2" type="checkbox">
       <p>Check one item</p>
     </div>
     <div class="item">
-      <input type="checkbox">
+      <input id="3" type="checkbox">
       <p>Hold down your Shift key</p>
     </div>
     <div class="item">
-      <input type="checkbox">
+      <input id="4" type="checkbox">
       <p>Check a lower item</p>
     </div>
     <div class="item">
-      <input type="checkbox">
-      <p>Everything inbetween should also be set to checked</p>
+      <input id="5" type="checkbox">
+      <p>Everything in between should also be set to checked</p>
     </div>
     <div class="item">
-      <input type="checkbox">
-      <p>Try do it with out any libraries</p>
+      <input id="6" type="checkbox">
+      <p>Try do it without any libraries</p>
     </div>
     <div class="item">
-      <input type="checkbox">
+      <input id="7" type="checkbox">
       <p>Just regular JavaScript</p>
     </div>
     <div class="item">
-      <input type="checkbox">
+      <input id="8" type="checkbox">
       <p>Good Luck!</p>
     </div>
     <div class="item">
-      <input type="checkbox">
+      <input id="9" type="checkbox">
       <p>Don't forget to tweet your result!</p>
     </div>
   </div>
 
 <script>
+  // flag determines if we want to make checks
+  let clicked = false;
+
+  // track id of first check so we know starting point
+  let firstId;
+  
+  function clickHandler(e) {
+    if (clicked === true && e.shiftKey === true) {
+      clicked = false;
+
+      // allow looping in both directions
+      const lesser = Math.min(firstId, e.target.id);
+      const greater = Math.max(firstId, e.target.id);
+
+      // apply check marks to inputs between first and last clicked
+      for (let i = lesser; i < greater; i++) {
+        const checking = document.getElementById(i);
+        checking.checked = true;
+      }
+
+    // if never clicked, assign first click
+    } else if (clicked === false) {
+      clicked = true;
+      firstId = e.target.id;
+    }
+  }
+
+  const inputs = document.querySelectorAll('input');
+  inputs.forEach(input => input.addEventListener('click', clickHandler));
+  
 </script>
 </body>
 </html>
