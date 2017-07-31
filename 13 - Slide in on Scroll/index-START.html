@@ -44,20 +44,39 @@
 
   <script>
     function debounce(func, wait = 20, immediate = true) {
-      var timeout;
-      return function() {
-        var context = this, args = arguments;
-        var later = function() {
+      let timeout;
+      return (...args) => {
+        function later() {
           timeout = null;
-          if (!immediate) func.apply(context, args);
+          if (!immediate) func(...args);
         };
-        var callNow = immediate && !timeout;
+
+        const callNow = immediate && !timeout;
         clearTimeout(timeout);
         timeout = setTimeout(later, wait);
-        if (callNow) func.apply(context, args);
+        if (callNow) func(...args);
       };
     }
 
+    const slidingImages = document.querySelectorAll('.slide-in');
+
+    function uponSlide(e) {
+      slidingImages.forEach(img => {
+        const bottomOfScreen = window.scrollY + window.innerHeight;
+        const middleOfImage = img.height / 2;
+        const animateAt = bottomOfScreen - middleOfImage;
+        const imageBottom = img.offsetTop + img.height;
+
+        const isHalfShown = animateAt > img.offsetTop;
+        const isNotScrolledPast = window.scrollY < imageBottom;
+
+        isHalfShown && isNotScrolledPast 
+        ? img.classList.add('active') 
+        : img.classList.remove('active');
+      });
+    }
+
+    window.addEventListener('scroll', debounce(uponSlide));
   </script>
 
   <style>
