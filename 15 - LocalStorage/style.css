@@ -1,7 +1,11 @@
 
+  /*
+not retrieving resource from background:url('http://wes.io/hx9M/oh-la-la.jpg') center no-repeat;
+
+  */
+  
     html {
       box-sizing: border-box;
-      background:url('http://wes.io/hx9M/oh-la-la.jpg') center no-repeat;
       background-size:cover;
       min-height:100vh;
       display:flex;
