@@ -10,9 +10,35 @@
   </div>
 
 <script>
-  window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  window.SpeechRecognition = 
+     window.SpeechRecognition 
+  || window.webkitSpeechRecognition 
+  || window.mozSpeechRecognition 
+  || window.msSpeechRecognition;
 
+  var recognition = new window.SpeechRecognition();
+  recognition.lang = 'en-US';
+  recognition.interimResults = true;
+  recognition.maxAlternatives = 1;
 
+  const words = document.querySelector('.words');
+  let p = document.createElement('p');
+  words.appendChild(p);
+
+  recognition.onresult = function(event) {
+    p.textContent = event.results[0][0].transcript;
+    const speechEnded = event.results[0].isFinal;
+    if (speechEnded) {
+      // creates new paragraphs, thus keeping a transcript of conversation
+      p = document.createElement('p');
+      words.appendChild(p);
+    }
+  };
+
+  recognition.start();
+
+  // needed to persist onresult listener after user pauses
+  recognition.addEventListener('end', recognition.start);
 </script>
 
 
