@@ -7,7 +7,7 @@
 <body>
 
   <div class="hero">
-    <h1 contenteditable>🔥WOAH!</h1>
+    <h1 class="content" contenteditable>🔥WOAH!</h1>
   </div>
 
   <style>
@@ -28,13 +28,23 @@
     color:black;
   }
 
-  h1 {
-    text-shadow: 10px 10px 0 rgba(0,0,0,1);
+  .content {
+    text-shadow: 10px 20px 10px rgba(0,0,0,.5);
     font-size: 100px;
   }
   </style>
 
 <script>
+  const text = document.querySelector('.content');
+  
+  function trackMousePosition(e) {
+    const expansion = 25;
+    const positionX = e.clientX / expansion;
+    const positionY = e.clientY / expansion;
+    text.style.textShadow = `${positionX}px ${positionY}px 10px #888`;
+  }
+
+  document.addEventListener('mousemove', trackMousePosition);
 </script>
 </body>
 </html>
