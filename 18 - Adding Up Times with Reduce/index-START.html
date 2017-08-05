@@ -182,6 +182,22 @@
     </li>
   </ul>
 <script>
+  const list = Array.from(document.getElementsByTagName('li'));
+
+  function convertToSeconds(str) {
+    const [minutes, seconds] = str.split(':');
+    const totalSeconds = Number(minutes) * 60 + Number(seconds);
+    return totalSeconds;
+  }
+  const totalSeconds = list
+    .map(item => item.dataset.time)
+    .reduce((acc, curr) => acc + convertToSeconds(curr), 0);
+
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor(totalSeconds % 3600 / 60);
+  const seconds = totalSeconds % 3600 % 60;
+
+  console.log(hours, minutes, seconds);
 </script>
 </body>
 </html>
