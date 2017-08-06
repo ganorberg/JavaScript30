@@ -26,10 +26,11 @@
   words.appendChild(p);
 
   recognition.onresult = function(event) {
+    // grab most likely words spoken
     p.textContent = event.results[0][0].transcript;
     const speechEnded = event.results[0].isFinal;
     if (speechEnded) {
-      // creates new paragraphs, thus keeping a transcript of conversation
+      // create new paragraphs to maintain a full transcript of conversation
       p = document.createElement('p');
       words.appendChild(p);
     }
@@ -37,7 +38,7 @@
 
   recognition.start();
 
-  // needed to persist onresult listener after user pauses
+  // persist onresult listener after user pauses
   recognition.addEventListener('end', recognition.start);
 </script>
 
