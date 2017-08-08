@@ -26,8 +26,43 @@
     </div>
 
   <script>
-    // 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
+    const links = document.querySelectorAll('a');
+    const menu = document.querySelector('.menu');
+
+    // create span tag that will move around page to highlight content
+    const highlight = document.createElement('span');
+    highlight.classList.add('highlight');
+
+    // append to menu for later translation
+    menu.appendChild(highlight);
+
+    function getCoords(elem) {
+      let box = elem.getBoundingClientRect();
+
+      return {
+        top: box.top + pageYOffset,
+        left: box.left + pageXOffset
+      };
+    }
+
+    function highlightClicked(event) {
+      // prevent page refresh
+      event.preventDefault();
+
+      // get document coordinates of the element
+      const linkPosition = getCoords(this);
+      
+      // move span tag to clicked coordinates
+      highlight.style.transform = `translate(${linkPosition.left}px, ${linkPosition.top}px)`
+
+      // set height and width of highlighting to exactly match content
+      highlight.style.height = this.offsetHeight + "px";
+      highlight.style.width = this.offsetWidth + "px";
+    }
+
+    links.forEach(link => link.addEventListener('click', highlightClicked));
   </script>
+
 </body>
 </html>
 
