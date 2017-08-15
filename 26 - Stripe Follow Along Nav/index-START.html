@@ -5,7 +5,7 @@
   <title>Follow Along Nav</title>
 </head>
 <body>
-  <h2>Cool</h2>
+
   <nav class="top">
     <div class="dropdownBackground">
       <span class="arrow"></span>
@@ -57,7 +57,7 @@
       <li>
         <a href="#">Other Links</a>
         <ul class="dropdown dropdown3">
-          <li><a class="button" href="http://twitter.com/wesbos">Twiter</a></li>
+          <li><a class="button" href="http://twitter.com/wesbos">Twitter</a></li>
           <li><a class="button" href="http://facebook.com/wesbos.developer">Facebook</a></li>
           <li><a class="button" href="http://wesbos.com">Blog</a></li>
           <li><a class="button" href="http://wesbos.com/courses">Course Catalog</a></li>
@@ -82,11 +82,6 @@
       linear-gradient(135deg, hsla(225, 95%, 50%, 1) 10%, hsla(225, 95%, 50%, 0) 80%),
       linear-gradient(225deg, hsla(140, 90%, 50%, 1) 10%, hsla(140, 90%, 50%, 0) 80%),
       linear-gradient(315deg, hsla(35, 95%, 55%, 1) 100%, hsla(35, 95%, 55%, 0) 70%);
-  }
-
-  h2 {
-    margin-top: 0;
-    padding-top: .8em;
   }
 
   nav {
@@ -214,6 +209,52 @@
 </style>
 
 <script>
+  const list = document.querySelector('.cool');
+  const dropdownBackground = document.querySelector('.dropdownBackground');
+
+  // access child elements only (not text nodes)
+  const items = Array.from(list.childNodes).filter(el => el.nodeType === 1);
+
+  function displayDropdown(e) {
+    this.classList.add('trigger-enter');
+
+    // delay content so it does not appear before background
+    setTimeout(() => {
+      // handle users who move mouse quickly over several items
+      if (this.classList.contains('trigger-enter')) {
+        this.classList.add('trigger-enter-active');
+      }  
+    }, 100);
+
+    // make background appear
+    dropdownBackground.classList.add('open');
+
+    // grab only nested dropdown for this particular li
+    const dropdown = this.querySelector('.dropdown');
+
+    // set background properties to match content
+    const dropCoords = dropdown.getBoundingClientRect();
+    const coords = {
+      width: dropCoords.width,
+      height: dropCoords.height,
+      top: dropCoords.top + window.scrollY,
+      left: dropCoords.left + window.scrollX
+    };
+
+    dropdownBackground.style.width = `${coords.width}px`;
+    dropdownBackground.style.height = `${coords.height}px`;
+    dropdownBackground.style.transform = `translate(${coords.left}px, ${coords.top}px)`;
+  }
+
+  function hideDropdown(e) {
+    this.classList.remove('trigger-enter', 'trigger-enter-active');
+    dropdownBackground.classList.remove('open');
+  }
+
+  items.forEach(item => {
+    item.addEventListener('mouseenter', displayDropdown);
+    item.addEventListener('mouseleave', hideDropdown);
+  });
 </script>
 
 </body>
