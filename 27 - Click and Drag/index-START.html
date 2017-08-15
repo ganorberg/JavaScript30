@@ -35,6 +35,44 @@
   </div>
 
 <script>
+  const items = document.querySelector('.items');
+
+  let clickPosition;
+  let scrollLeft;
+  let clicked = false;
+
+  function activateDrag(e) {
+    clicked = true;
+    items.classList.add('active');
+
+    // store for calculations in moveWindow
+    clickPosition = e.pageX;
+    scrollLeft = items.scrollLeft;
+  }
+
+  function stopDrag() {
+    clicked = false;
+    items.classList.remove('active');
+  }
+  
+  function moveWindow(e) {
+    // only scroll when user is clicking on items div
+    if (clicked === false) return;
+
+    // stop selection of text or other elements inside items div
+    e.preventDefault();
+
+    // determine how many pixels cursor has moved since click
+    const deviation = e.pageX - clickPosition;
+
+    // move screen opposite deviation amount
+    items.scrollLeft = scrollLeft - deviation;
+  }
+
+  items.addEventListener('mousedown', activateDrag);
+  items.addEventListener('mouseleave', stopDrag);
+  items.addEventListener('mouseup', stopDrag);
+  items.addEventListener('mousemove', moveWindow);
 </script>
 
   </body>
