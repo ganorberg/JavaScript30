@@ -39,6 +39,24 @@
 
 <button></button>
 <script>
+  const divs = document.querySelectorAll('div');
+  const button = document.querySelector('button');
+
+  function logText(e) {
+    console.log(this.classList.value);
+    e.stopPropagation(); // stop bubbling or capturing!
+  }
+
+  divs.forEach(div => div.addEventListener('click', logText, {
+    capture: false,
+    once: true
+  }));
+
+  button.addEventListener('click', () => {
+    console.log('Charge my credit card only once, please!');
+  }, {
+    once: true
+  });
 
 </script>
 </body>
