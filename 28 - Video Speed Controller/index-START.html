@@ -8,13 +8,30 @@
 <body>
 
   <div class="wrapper">
-    <video class="flex" width="765" height="430" src="https://www.dropbox.com/s/nf6jfkwck1glsyo/12%20-%20flex-wrapping-and-columns.mp4?dl=1" loop controls></video>
+    <video class="flex" width="765" height="430" src="https://player.vimeo.com/external/194837908.sd.mp4?s=c350076905b78c67f74d7ee39fdb4fef01d12420&profile_id=164" loop controls></video>
     <div class="speed">
       <div class="speed-bar">1×</div>
     </div>
   </div>
 
 <script>
+  const speedContainer = document.querySelector('.speed');
+  const speedBar = speedContainer.querySelector('.speed-bar');
+  const video = document.querySelector('.flex');
+
+  function adjustPlayerSpeed(e) {
+    // adjust height of bar based on position of cursor
+    const heightFraction = e.offsetY / this.clientHeight
+    const percent = 100 * heightFraction;
+    speedBar.style.height = percent + '%';
+
+    // set multiplier, text and player speed
+    const multiplier = (3.5 * heightFraction + 0.5).toFixed(1);
+    speedBar.textContent = multiplier + 'x';
+    video.playbackRate = Number(multiplier);
+  }
+
+  speedContainer.addEventListener('mousemove', adjustPlayerSpeed);
 </script>
 </body>
 </html>
