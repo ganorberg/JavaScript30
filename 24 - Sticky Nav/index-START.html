@@ -54,7 +54,31 @@
   </div>
 
 <script>
+const nav = document.querySelector('nav');
+const logo = document.querySelector('.logo');
 
+// must be outside listener to remember initial position
+const NAV_TOP = nav.offsetTop;
+
+function toggleNavStick(e) {
+  if (window.scrollY > NAV_TOP) {
+    nav.style.position = 'fixed';
+
+    // fixed position causes jump (to new layout), so add padding to mask
+    document.body.style.paddingTop = nav.offsetHeight + 'px';
+
+    // logo is overflow hidden, so this allows it to transition in
+    logo.style.maxWidth = 200 + 'px';
+  } else {
+    nav.style.position = 'relative';
+
+    // reset padding and logo
+    document.body.style.paddingTop = 0;
+    logo.style.maxWidth = 0;
+  }
+}
+
+document.addEventListener('scroll', toggleNavStick);
 </script>
 
 </body>
